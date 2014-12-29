@@ -5,6 +5,7 @@ import com.pixelmonmod.pixelmon.storage.PlayerNotLoadedException;
 import com.pixelmonmod.pixelmon.storage.PlayerStorage;
 import com.ryanv97.pixelgyms.PixelGyms;
 import com.ryanv97.pixelgyms.util.Reference;
+import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.util.ChatComponentText;
@@ -56,11 +57,6 @@ public class GymHandler
                 if(playerStorage.getHighestLevel()<=gym.getLevelCap())
                 {
                     gym.getPlayers().add(player);
-                    double[] loc = new double[3];
-                    loc[0] = player.posX;
-                    loc[1] = player.posY;
-                    loc[2] = player.posZ;
-                    locations.put(player, loc);
 
                     player.addChatComponentMessage(new ChatComponentText(Reference.messagePrefix + "You are now in the gym queue!"));
                     return;
@@ -99,20 +95,41 @@ public class GymHandler
         player.setPositionAndUpdate(loc[0],loc[1],loc[2]);
     }
 
-    public void nextPlayer(String name, EntityPlayer sender)
+    public void nextPlayer(String name, ICommandSender sender)
     {
         Gym gym = getGym(name);
-        if(gym==null) {
-            sender.addChatComponentMessage(new ChatComponentText(Reference.messagePrefix + Reference.colorRed + "Error: Gym not found!"));
+        if(gym==null)
+        {
+            sender.addChatMessage(new ChatComponentText(Reference.messagePrefix + Reference.colorRed + "Error: Gym not found!"));
             return;
         }
         List<EntityPlayer> players = gym.getPlayers();
-        if(players.size()==0) {
-            sender.addChatComponentMessage(new ChatComponentText(Reference.messagePrefix+Reference.colorRed+"Error: No players waiting!"));
-            return;
+        EntityPlayer currentPlayer = null;
+        EntityPlayer nextPlayer = null;
+        if(players.size()>0)
+        {
+            currentPlayer = players.get(0);
+            if (players.size() > 1)
+            {
+                nextPlayer = players.get(1);
+            }
         }
-        EntityPlayer player = players.get(0);
-        teleportPlayer(player, name);
+
+        if(currentPlayer!=null)
+        {
+            removePlayer(currentPlayer);
+        }
+        if(nextPlayer!=null)
+        {
+            double[] loc = new double[3];
+            loc[0] = nextPlayer.posX;
+            loc[1] = nextPlayer.posY;
+            loc[2] = nextPlayer.posZ;
+            locations.put(nextPlayer, loc);
+            teleportPlayer(nextPlayer, name);
+        } else {
+            sender.addChatMessage(new ChatComponentText(Reference.messagePrefix+Reference.colorRed+"No players waiting!"));
+        }
     }
 
     public void teleportPlayer(EntityPlayer player, String name)
@@ -169,34 +186,35 @@ public class GymHandler
         }
     }
 
-    public void listGyms(EntityPlayer player)
+    public void listGyms(ICommandSender player)
     {
         if(gyms.size()==0)
         {
-            player.addChatComponentMessage(new ChatComponentText(Reference.messagePrefix+"There are no Gyms!"));
+            player.addChatMessage(new ChatComponentText(Reference.messagePrefix+"There are no Gyms!"));
         }
+        player.addChatMessage(new ChatComponentText(Reference.messagePrefix+Reference.bold+"Current Gyms:"));
         for(Gym entry : gyms)
         {
             double[] warp = entry.getWarp();
-            player.addChatComponentMessage(new ChatComponentText(entry.getId()+": X"+(int)warp[0]+" Y"+(int)warp[1]+" Z"+(int)warp[2]+" Level Cap: "+entry.getLevelCap()));
+            player.addChatMessage(new ChatComponentText(Reference.messagePrefix+entry.getId()+": x"+(int)warp[0]+", y"+(int)warp[1]+", z"+(int)warp[2]+" Level Cap: "+entry.getLevelCap()));
         }
     }
 
-    public void listPlayers(EntityPlayer player, String name)
+    public void listPlayers(ICommandSender commandSender, String name)
     {
         Gym gym = this.getGym(name);
         if(gym==null) {
-            player.addChatComponentMessage(new ChatComponentText(Reference.messagePrefix + Reference.colorRed+"Error: Gym not found!"));
+            commandSender.addChatMessage(new ChatComponentText(Reference.messagePrefix + Reference.colorRed + "Error: Gym not found!"));
             return;
         }
         if(gym.getPlayers().size()==0) {
-            player.addChatComponentMessage(new ChatComponentText(Reference.messagePrefix + "No Players in queue for " + gym.getId() + "."));
+            commandSender.addChatMessage(new ChatComponentText(Reference.messagePrefix + "No Players in queue for " + gym.getId() + "."));
             return;
         }
         int i = 1;
         for(EntityPlayer p : gym.getPlayers())
         {
-            player.addChatComponentMessage(new ChatComponentText(Reference.messagePrefix+i+": "+p.getDisplayName()));
+            commandSender.addChatMessage(new ChatComponentText(Reference.messagePrefix + i + ": " + p.getDisplayName()));
             i++;
         }
     }

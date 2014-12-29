@@ -1,6 +1,6 @@
 package com.ryanv97.pixelgyms;
 
-import com.ryanv97.pixelgyms.commands.GymAdminCommand;
+import com.ryanv97.pixelgyms.commands.GymAdminCommands;
 import com.ryanv97.pixelgyms.config.GymConfiguration;
 import com.ryanv97.pixelgyms.gym.GymHandler;
 import cpw.mods.fml.common.Mod;
@@ -34,6 +34,6 @@ public class PixelGyms
     @Mod.EventHandler
     public void onServerStart(FMLServerStartingEvent event)
     {
-        event.registerServerCommand(new GymAdminCommand());
+        event.registerServerCommand(new GymAdminCommands());
     }
 }
