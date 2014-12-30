@@ -87,7 +87,7 @@ public class GymAdminCommands extends CommandBase
                 commandSender.addChatMessage(new ChatComponentText(Reference.colorRed+"/gymadmin removePlayer <Player Name> - Removes a player "+Reference.colorRed+"from the queue they're in."));
             }
             if (args.length > 1) {
-                PixelGyms.gymHandler.removePlayer(getPlayer(commandSender, args[1]));
+                PixelGyms.gymHandler.removePlayer(getPlayer(commandSender, args[1]), commandSender);
             }
         }
         if (args[0].equalsIgnoreCase("nextPlayer")) {
