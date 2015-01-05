@@ -1,9 +1,13 @@
 package com.ryanv97.pixelgyms;
 
 import com.ryanv97.pixelgyms.commands.GymAdminCommands;
+import com.ryanv97.pixelgyms.commands.GymCommands;
 import com.ryanv97.pixelgyms.config.GymConfiguration;
 import com.ryanv97.pixelgyms.gym.GymHandler;
+import com.ryanv97.pixelgyms.util.TickHandler;
+import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Mod;
+import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.event.FMLServerStartingEvent;
 import org.apache.logging.log4j.LogManager;
@@ -32,8 +36,15 @@ public class PixelGyms
     }
 
     @Mod.EventHandler
+    public void load(FMLInitializationEvent event)
+    {
+        FMLCommonHandler.instance().bus().register(new TickHandler());
+    }
+
+    @Mod.EventHandler
     public void onServerStart(FMLServerStartingEvent event)
     {
         event.registerServerCommand(new GymAdminCommands());
+        event.registerServerCommand(new GymCommands());
     }
 }

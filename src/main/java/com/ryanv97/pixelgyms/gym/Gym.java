@@ -11,6 +11,8 @@ public class Gym {
     private final int levelCap;
     private final List<EntityPlayer> players = new ArrayList<EntityPlayer>();
     private EntityPlayer currentPlayer;
+    public boolean isCounting;
+    public int countdown;
 
     public Gym(String name, double[] warp, int levelCap) {
         this.name = name;

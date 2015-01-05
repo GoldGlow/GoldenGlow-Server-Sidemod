@@ -5,9 +5,12 @@ import com.pixelmonmod.pixelmon.storage.PlayerNotLoadedException;
 import com.pixelmonmod.pixelmon.storage.PlayerStorage;
 import com.ryanv97.pixelgyms.PixelGyms;
 import com.ryanv97.pixelgyms.util.Reference;
+import cpw.mods.fml.common.eventhandler.SubscribeEvent;
+import net.minecraft.client.Minecraft;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraftforge.common.config.Configuration;
@@ -17,7 +20,7 @@ import java.util.*;
 public class GymHandler
 {
     public Map<EntityPlayer, double[]> locations = new HashMap<EntityPlayer, double[]>();
-    private final List<Gym> gyms = new ArrayList<Gym>();
+    public final List<Gym> gyms = new ArrayList<Gym>();
 
     static PixelGyms mod;
     public GymHandler(PixelGyms pixelGyms)
@@ -30,6 +33,18 @@ public class GymHandler
         for(Gym gym : gyms)
         {
             if(gym.getId().equalsIgnoreCase(name))
+                return gym;
+        }
+        return null;
+    }
+
+    public Gym getGym(EntityPlayer player)
+    {
+        for(Gym gym : gyms)
+        {
+            if(gym.getPlayers().contains(player))
+                return gym;
+            if(gym.getCurrentPlayer()!=null&&gym.getCurrentPlayer().isEntityEqual(player))
                 return gym;
         }
         return null;
@@ -54,6 +69,7 @@ public class GymHandler
                     gym.getPlayers().add(player);
 
                     player.addChatComponentMessage(new ChatComponentText(Reference.messagePrefix + "You are now in the gym queue!"));
+                    player.addChatComponentMessage(new ChatComponentText(Reference.messagePrefix + "Use '/gym leave' to leave the queue at any time!"));
                     return;
                 }else{
                     player.addChatComponentMessage(new ChatComponentText(Reference.messagePrefix + Reference.colorRed + "Error: You exceed this Gym's level cap of: "+gym.getLevelCap()+"!"));
@@ -130,7 +146,6 @@ public class GymHandler
             {
                 //If there are players waiting, and a current player in the gym.
                 removePlayer(currentPlayer);
-                currentPlayer.addChatComponentMessage(new ChatComponentText(Reference.messagePrefix+"You have been warped out of the gym!"));
 
                 EntityPlayer nextPlayer = players.get(0);
                 double[] loc = new double[3];
@@ -146,7 +161,6 @@ public class GymHandler
             }else{
                 //If there are no players waiting, but a current player in the gym.
                 removePlayer(currentPlayer);
-                currentPlayer.addChatComponentMessage(new ChatComponentText(Reference.messagePrefix+"You have been warped out of the gym!"));
                 gym.setCurrentPlayer(null);
             }
         }
@@ -159,9 +173,11 @@ public class GymHandler
             player.addChatComponentMessage(new ChatComponentText(Reference.messagePrefix + Reference.colorRed + "Error: Invalid Gym!"));
             return;
         }
-        double[] loc = gym.getWarp();
-        player.setPositionAndUpdate(loc[0],loc[1],loc[2]);
-        player.addChatComponentMessage(new ChatComponentText(Reference.messagePrefix+"You have been warped to the gym!"));
+        gym.isCounting=true;
+        gym.countdown=1200;
+        player.addChatComponentMessage(new ChatComponentText(Reference.messagePrefix+"You have been summoned to a Gym!"));
+        player.addChatComponentMessage(new ChatComponentText(Reference.messagePrefix+"You have one minute to prepare before being forcefully teleported."));
+        player.addChatComponentMessage(new ChatComponentText(Reference.messagePrefix+"Use '/gym accept' if you're ready"));
     }
 
     public Gym createGym(String name, double x, double y, double z, int levelCap)
@@ -188,6 +204,7 @@ public class GymHandler
                 player.addChatComponentMessage(new ChatComponentText(Reference.messagePrefix+Reference.colorRed+"The Gym you were queued for has been deleted or reset."));
             }
             this.gyms.remove(gym);
+            this.gyms.get(0);
             sender.addChatComponentMessage(new ChatComponentText(Reference.messagePrefix + "Successfully removed Gym: " + name + "!"));
         }
     }
@@ -211,6 +228,7 @@ public class GymHandler
         if(gyms.size()==0)
         {
             player.addChatMessage(new ChatComponentText(Reference.messagePrefix+"There are no Gyms!"));
+            return;
         }
         player.addChatMessage(new ChatComponentText(Reference.messagePrefix+Reference.bold+"Current Gyms:"));
         for(Gym entry : gyms)
@@ -250,6 +268,8 @@ public class GymHandler
         for(Gym g : this.gyms)
         {
             if(g.getPlayers().contains(player))
+                return true;
+            if(g.getCurrentPlayer()!=null && g.getCurrentPlayer().isEntityEqual(player))
                 return true;
         }
         return false;

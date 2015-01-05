@@ -51,8 +51,7 @@ public class GymAdminCommands extends CommandBase
                 commandSender.addChatMessage(new ChatComponentText(Reference.colorRed+"/gymadmin remove <Gym Name> - Removes the given Gym."));
             }
             if (args.length>=2) {
-                EntityPlayer player = getPlayer(commandSender, commandSender.getCommandSenderName());
-                PixelGyms.config.removeGym(args[1], player);
+                PixelGyms.config.removeGym(args[1], getPlayer(commandSender, commandSender.getCommandSenderName()));
             }
         }
         if (args[0].equalsIgnoreCase("tp")) {
