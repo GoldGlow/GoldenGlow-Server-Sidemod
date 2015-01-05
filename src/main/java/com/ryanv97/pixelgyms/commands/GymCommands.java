@@ -2,11 +2,19 @@ package com.ryanv97.pixelgyms.commands;
 
 import com.ryanv97.pixelgyms.PixelGyms;
 import com.ryanv97.pixelgyms.gym.Gym;
+import com.ryanv97.pixelgyms.gym.GymLeader;
 import com.ryanv97.pixelgyms.util.Reference;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.server.MinecraftServer;
+import net.minecraft.server.management.PlayerManager;
+import net.minecraft.server.management.ServerConfigurationManager;
 import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.EnumChatFormatting;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class GymCommands extends CommandBase
 {
@@ -17,7 +25,12 @@ public class GymCommands extends CommandBase
 
     @Override
     public String getCommandUsage(ICommandSender iCommandSender) {
-        return "/gym <accept/position/leave>";
+        return "/gym <accept/position/leave/listLeaders>";
+    }
+
+    @Override
+    public int getRequiredPermissionLevel() {
+        return 0;
     }
 
     @Override
@@ -49,6 +62,20 @@ public class GymCommands extends CommandBase
                 if (args.length > 1) {
                     PixelGyms.gymHandler.removePlayer(player, iCommandSender);
                 }
+            }
+
+            if (args[0].equalsIgnoreCase("listLeaders")) {
+                List<String> list = new ArrayList<String>();
+                List<EntityPlayer> players = MinecraftServer.getServer().getConfigurationManager().playerEntityList;
+                for(EntityPlayer p : players)
+                {
+                    if(p.getExtendedProperties(GymLeader.EXT_PROP_NAME)!=null)
+                        list.add(p.getDisplayName());
+                }
+                if(list.size()<1)
+                    iCommandSender.addChatMessage(new ChatComponentText(Reference.messagePrefix+Reference.colorRed+"No leaders online!"));
+                else
+                    iCommandSender.addChatMessage(new ChatComponentText(Reference.messagePrefix+Reference.colorGreen+"Players: "+ EnumChatFormatting.RESET+list));
             }
         }
     }

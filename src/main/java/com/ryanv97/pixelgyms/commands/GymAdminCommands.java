@@ -1,6 +1,7 @@
 package com.ryanv97.pixelgyms.commands;
 
 import com.ryanv97.pixelgyms.PixelGyms;
+import com.ryanv97.pixelgyms.gym.GymLeader;
 import com.ryanv97.pixelgyms.util.Reference;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.ICommandSender;
@@ -109,6 +110,26 @@ public class GymAdminCommands extends CommandBase
             PixelGyms.gymHandler.loadGyms();
             PixelGyms.config.reload();
             commandSender.addChatMessage(new ChatComponentText(Reference.messagePrefix+"Successfully reloaded Gyms!"));
+        }
+        if (args[0].equalsIgnoreCase("addLeader")) {
+            if(args.length==1) {
+                commandSender.addChatMessage(new ChatComponentText(Reference.colorRed+"/gymadmin addLeader <Player Name> <Gym Name>"));
+            }else if(args.length==2){
+                commandSender.addChatMessage(new ChatComponentText(Reference.colorRed+"/gymadmin addLeader "+args[1]+" <Gym Name>"));
+            }else{
+                EntityPlayer player = getPlayer(commandSender, args[1]);
+                if(player!=null)
+                    GymLeader.register(player, args[2]);
+            }
+        }
+        if (args[0].equalsIgnoreCase("removeLeader")) {
+            if(args.length==1) {
+                commandSender.addChatMessage(new ChatComponentText(Reference.colorRed+"/gymadmin removeLeader <Player Name>"));
+            }else{
+                EntityPlayer player = getPlayer(commandSender, args[1]);
+                if(player!=null)
+                    GymLeader.register(player, "");
+            }
         }
     }
 

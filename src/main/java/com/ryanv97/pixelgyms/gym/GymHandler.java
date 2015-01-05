@@ -10,6 +10,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.EnumChatFormatting;
@@ -19,6 +20,8 @@ import java.util.*;
 
 public class GymHandler
 {
+    private static final Map<String, NBTTagCompound> gymLeaderData = new HashMap<String, NBTTagCompound>();
+
     public Map<EntityPlayer, double[]> locations = new HashMap<EntityPlayer, double[]>();
     public final List<Gym> gyms = new ArrayList<Gym>();
 
@@ -273,5 +276,15 @@ public class GymHandler
                 return true;
         }
         return false;
+    }
+
+    public static void storeGymLeaderData(String name, NBTTagCompound compound)
+    {
+        gymLeaderData.put(name, compound);
+    }
+
+    public static NBTTagCompound getGymLeaderData(String name)
+    {
+        return gymLeaderData.remove(name);
     }
 }
