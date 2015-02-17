@@ -1,15 +1,13 @@
-package com.ryanv97.pixelgyms.commands;
+package com.goldenglow.commands;
 
-import com.ryanv97.pixelgyms.PixelGyms;
-import com.ryanv97.pixelgyms.gym.Gym;
-import com.ryanv97.pixelgyms.gym.GymLeader;
-import com.ryanv97.pixelgyms.util.Reference;
+import com.goldenglow.GoldenGlow;
+import com.goldenglow.util.Reference;
+import com.goldenglow.gym.Gym;
+import com.goldenglow.gym.GymLeader;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.server.management.PlayerManager;
-import net.minecraft.server.management.ServerConfigurationManager;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.EnumChatFormatting;
 
@@ -41,9 +39,9 @@ public class GymCommands extends CommandBase
         {
             if(args[0].equalsIgnoreCase("accept"))
             {
-                if(PixelGyms.gymHandler.isInQueue(player))
+                if(GoldenGlow.gymHandler.isInQueue(player))
                 {
-                    Gym gym = PixelGyms.gymHandler.getGym(player);
+                    Gym gym = GoldenGlow.gymHandler.getGym(player);
                     if(gym.isCounting && gym.getCurrentPlayer().isEntityEqual(player))
                     {
                         gym.isCounting=false;
@@ -60,7 +58,7 @@ public class GymCommands extends CommandBase
 
             if (args[0].equalsIgnoreCase("removePlayer")) {
                 if (args.length > 1) {
-                    PixelGyms.gymHandler.removePlayer(player, iCommandSender);
+                    GoldenGlow.gymHandler.removePlayer(player, iCommandSender);
                 }
             }
 

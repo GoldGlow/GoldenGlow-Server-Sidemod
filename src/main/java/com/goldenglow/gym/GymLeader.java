@@ -1,6 +1,6 @@
-package com.ryanv97.pixelgyms.gym;
+package com.goldenglow.gym;
 
-import com.ryanv97.pixelgyms.PixelGyms;
+import com.goldenglow.GoldenGlow;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
@@ -66,13 +66,13 @@ public class GymLeader implements IExtendedEntityProperties {
         NBTTagCompound savedData = new NBTTagCompound();
 
         data.saveNBTData(savedData);
-        PixelGyms.gymHandler.storeGymLeaderData(getSaveKey(player), savedData);
+        GoldenGlow.gymHandler.storeGymLeaderData(getSaveKey(player), savedData);
     }
 
     public static void loadGymHandlerData(EntityPlayer player)
     {
         GymLeader data = GymLeader.get(player);
-        NBTTagCompound savedData = PixelGyms.gymHandler.getGymLeaderData(getSaveKey(player));
+        NBTTagCompound savedData = GoldenGlow.gymHandler.getGymLeaderData(getSaveKey(player));
         if(savedData!=null)
             data.loadNBTData(savedData);
     }

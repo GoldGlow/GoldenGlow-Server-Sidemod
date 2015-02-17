@@ -1,17 +1,14 @@
-package com.ryanv97.pixelgyms.gym;
+package com.goldenglow.gym;
 
+import com.goldenglow.GoldenGlow;
+import com.goldenglow.util.Reference;
 import com.pixelmonmod.pixelmon.storage.PixelmonStorage;
 import com.pixelmonmod.pixelmon.storage.PlayerNotLoadedException;
 import com.pixelmonmod.pixelmon.storage.PlayerStorage;
-import com.ryanv97.pixelgyms.PixelGyms;
-import com.ryanv97.pixelgyms.util.Reference;
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
-import net.minecraft.client.Minecraft;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraftforge.common.config.Configuration;
@@ -25,10 +22,10 @@ public class GymHandler
     public Map<EntityPlayer, double[]> locations = new HashMap<EntityPlayer, double[]>();
     public final List<Gym> gyms = new ArrayList<Gym>();
 
-    static PixelGyms mod;
-    public GymHandler(PixelGyms pixelGyms)
+    static GoldenGlow mod;
+    public GymHandler(GoldenGlow goldenGlow)
     {
-        mod = pixelGyms;
+        mod = goldenGlow;
     }
 
     public Gym getGym(String name)

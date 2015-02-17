@@ -1,4 +1,4 @@
-package com.ryanv97.pixelgyms.gym;
+package com.goldenglow.gym;
 
 import net.minecraft.entity.player.EntityPlayer;
 

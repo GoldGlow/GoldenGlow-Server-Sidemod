@@ -1,7 +1,7 @@
-package com.ryanv97.pixelgyms.config;
+package com.goldenglow.config;
 
-import com.ryanv97.pixelgyms.PixelGyms;
-import com.ryanv97.pixelgyms.util.Reference;
+import com.goldenglow.GoldenGlow;
+import com.goldenglow.util.Reference;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ChatComponentText;
 import net.minecraftforge.common.config.Configuration;
@@ -14,7 +14,7 @@ import java.util.List;
 
 public class GymConfiguration
 {
-    Configuration config = new Configuration(new File("config/gyms.cfg"));
+    Configuration config = new Configuration(new File(Reference.configDir, "gyms.cfg"));
     List<String> gyms = new ArrayList<String>();
 
     public GymConfiguration()
@@ -43,7 +43,7 @@ public class GymConfiguration
         gymList.add(gymInfo);
         gyms.set((String[]) gymList.toArray(new String[this.gyms.size()]));
 
-        PixelGyms.gymHandler.createGym(name, posX,posY,posZ, levelCap);
+        GoldenGlow.gymHandler.createGym(name, posX,posY,posZ, levelCap);
 
         this.config.save();
 
@@ -88,7 +88,7 @@ public class GymConfiguration
         gyms.set((String[])gymList.toArray(new String[gymList.size()]));
         this.config.save();
 
-        PixelGyms.gymHandler.removeGym(name, player);
+        GoldenGlow.gymHandler.removeGym(name, player);
     }
 
     public void reload()

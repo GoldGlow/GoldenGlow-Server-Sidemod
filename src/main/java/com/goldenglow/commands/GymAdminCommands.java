@@ -1,8 +1,8 @@
-package com.ryanv97.pixelgyms.commands;
+package com.goldenglow.commands;
 
-import com.ryanv97.pixelgyms.PixelGyms;
-import com.ryanv97.pixelgyms.gym.GymLeader;
-import com.ryanv97.pixelgyms.util.Reference;
+import com.goldenglow.GoldenGlow;
+import com.goldenglow.util.Reference;
+import com.goldenglow.gym.GymLeader;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
@@ -44,7 +44,7 @@ public class GymAdminCommands extends CommandBase
             }
             if (args.length > 2) {
                 EntityPlayer player = getPlayer(commandSender, commandSender.getCommandSenderName());
-                PixelGyms.config.addGym(args[1], player.posX, player.posY, player.posZ, Integer.parseInt(args[2]), player);
+                GoldenGlow.config.addGym(args[1], player.posX, player.posY, player.posZ, Integer.parseInt(args[2]), player);
             }
         }
         if (args[0].equalsIgnoreCase("remove")) {
@@ -52,7 +52,7 @@ public class GymAdminCommands extends CommandBase
                 commandSender.addChatMessage(new ChatComponentText(Reference.colorRed+"/gymadmin remove <Gym Name> - Removes the given Gym."));
             }
             if (args.length>=2) {
-                PixelGyms.config.removeGym(args[1], getPlayer(commandSender, commandSender.getCommandSenderName()));
+                GoldenGlow.config.removeGym(args[1], getPlayer(commandSender, commandSender.getCommandSenderName()));
             }
         }
         if (args[0].equalsIgnoreCase("tp")) {
@@ -69,7 +69,7 @@ public class GymAdminCommands extends CommandBase
                 }else{
                     player = getPlayer(commandSender, commandSender.getCommandSenderName());
                 }
-                PixelGyms.gymHandler.teleportPlayer(player, args[1]);
+                GoldenGlow.gymHandler.teleportPlayer(player, args[1]);
             }
         }
         if (args[0].equalsIgnoreCase("addPlayer")) {
@@ -77,7 +77,7 @@ public class GymAdminCommands extends CommandBase
                 commandSender.addChatMessage(new ChatComponentText(Reference.colorRed+"/gymadmin addPlayer <Player Name> <Gym Name> - Adds a player to the given Gym."));
             }
             if (args.length > 2) {
-                PixelGyms.gymHandler.addPlayer(getPlayer(commandSender, args[1]), args[2]);
+                GoldenGlow.gymHandler.addPlayer(getPlayer(commandSender, args[1]), args[2]);
             } else {
                 commandSender.addChatMessage(new ChatComponentText(Reference.messagePrefix + Reference.colorRed + "Error: No Player specified!"));
             }
@@ -87,28 +87,28 @@ public class GymAdminCommands extends CommandBase
                 commandSender.addChatMessage(new ChatComponentText(Reference.colorRed+"/gymadmin removePlayer <Player Name> - Removes a player "+Reference.colorRed+"from the queue they're in."));
             }
             if (args.length > 1) {
-                PixelGyms.gymHandler.removePlayer(getPlayer(commandSender, args[1]), commandSender);
+                GoldenGlow.gymHandler.removePlayer(getPlayer(commandSender, args[1]), commandSender);
             }
         }
         if (args[0].equalsIgnoreCase("nextPlayer")) {
             if(args.length==1){
                 commandSender.addChatMessage(new ChatComponentText(Reference.colorRed+"/gymadmin nextPlayer <Gym Name> - Moves the queue along for the given Gym."));
             }else {
-                PixelGyms.gymHandler.nextPlayer(args[1], commandSender);
+                GoldenGlow.gymHandler.nextPlayer(args[1], commandSender);
             }
         }
         if (args[0].equalsIgnoreCase("listPlayers")) {
             if(args.length==1){
                 commandSender.addChatMessage(new ChatComponentText(Reference.colorRed+"/gymadmin listPlayers <Gym Name> - Lists all players in this Gym's queue."));
             }
-            PixelGyms.gymHandler.listPlayers(commandSender, args[1]);
+            GoldenGlow.gymHandler.listPlayers(commandSender, args[1]);
         }
         if (args[0].equalsIgnoreCase("list")) {
-            PixelGyms.gymHandler.listGyms(commandSender);
+            GoldenGlow.gymHandler.listGyms(commandSender);
         }
         if (args[0].equalsIgnoreCase("reload")) {
-            PixelGyms.gymHandler.loadGyms();
-            PixelGyms.config.reload();
+            GoldenGlow.gymHandler.loadGyms();
+            GoldenGlow.config.reload();
             commandSender.addChatMessage(new ChatComponentText(Reference.messagePrefix+"Successfully reloaded Gyms!"));
         }
         if (args[0].equalsIgnoreCase("addLeader")) {

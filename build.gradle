@@ -18,11 +18,11 @@ buildscript {
 apply plugin: 'forge'
 
 version = "1.7.10-1.0"
-group= "com.goldenglow.pixelgyms" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
-archivesBaseName = "PixelGyms"
+group= "com.goldenglow" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
+archivesBaseName = "GoldenGlow"
 
 minecraft {
-    version = "1.7.10-10.13.2.1272"
+    version = "1.7.10-10.13.2.1291"
     runDir = "run"
 }
 
@@ -30,7 +30,7 @@ dependencies {
     // you may put jars on which you depend on in ./libs
     // or you may define them like so..
     //compile "some.group:artifact:version:classifier"
-    compile files("lib/Pixelmon.jar")
+    //compile "some.group:artifact:version"
       
     // real examples
     //compile 'com.mod-buildcraft:buildcraft:6.0.8:dev'  // adds buildcraft to the dev env

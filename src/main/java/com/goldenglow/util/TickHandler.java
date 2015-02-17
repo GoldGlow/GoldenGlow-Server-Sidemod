@@ -1,10 +1,10 @@
-package com.ryanv97.pixelgyms.util;
+package com.goldenglow.util;
 
 import com.pixelmonmod.pixelmon.storage.PixelmonStorage;
 import com.pixelmonmod.pixelmon.storage.PlayerNotLoadedException;
 import com.pixelmonmod.pixelmon.storage.PlayerStorage;
-import com.ryanv97.pixelgyms.PixelGyms;
-import com.ryanv97.pixelgyms.gym.Gym;
+import com.goldenglow.GoldenGlow;
+import com.goldenglow.gym.Gym;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.TickEvent;
 import cpw.mods.fml.relauncher.Side;
@@ -21,7 +21,7 @@ public class TickHandler
     {
         if(event.phase==TickEvent.Phase.START)
         {
-            for(Gym gym : PixelGyms.gymHandler.gyms)
+            for(Gym gym : GoldenGlow.gymHandler.gyms)
             {
                 if(gym.isCounting)
                 {
