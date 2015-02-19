@@ -1,9 +1,9 @@
 package com.goldenglow.commands;
 
 import com.goldenglow.GoldenGlow;
-import com.goldenglow.util.Reference;
 import com.goldenglow.gym.Gym;
 import com.goldenglow.gym.GymLeader;
+import com.goldenglow.util.Reference;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;

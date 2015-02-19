@@ -56,7 +56,6 @@ public class TeamHandler
         String teamName = "";
         ArrayList<String> file = new ArrayList<String>();
         EntityPixelmon pixelmon = null;
-        Moveset moveset = new Moveset();
 
         while((readLine=reader.readLine())!=null)
         {
@@ -94,7 +93,6 @@ public class TeamHandler
                 }else{
                     mod.logger.error("Pokemon not found: "+pixelName);
                 }
-                moveset.clear();
             }
             //ToDo: Add Abilities
             if(line.startsWith("Level:"))
@@ -167,6 +165,7 @@ public class TeamHandler
             }
             if(line.startsWith("Moves:"))
             {
+                Moveset moveset = new Moveset();
                 line = line.replace("Moves: ","");
                 String[] moves = line.split(" / ");
                 for(String move : moves)

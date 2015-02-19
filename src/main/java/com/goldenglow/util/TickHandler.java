@@ -13,9 +13,12 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.util.ChatComponentText;
 
-@SideOnly(Side.SERVER)
 public class TickHandler
 {
+    public static TickHandler instance;
+    public TickHandler()
+    {instance=this;}
+
     @SubscribeEvent
     public void onServerTick(TickEvent.ServerTickEvent event)
     {
