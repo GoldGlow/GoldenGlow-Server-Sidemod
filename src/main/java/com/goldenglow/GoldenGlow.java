@@ -55,7 +55,6 @@ public class GoldenGlow
     {
         event.registerServerCommand(new GymAdminCommands());
         event.registerServerCommand(new GymCommands());
-        event.registerServerCommand(new ResetCamCommand());
         event.registerServerCommand(new TeamCommand());
         TeamHandler.instance.init();
     }
