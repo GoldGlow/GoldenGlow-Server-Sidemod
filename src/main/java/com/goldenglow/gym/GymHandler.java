@@ -17,15 +17,17 @@ import java.util.*;
 
 public class GymHandler
 {
-    private static final Map<String, NBTTagCompound> gymLeaderData = new HashMap<String, NBTTagCompound>();
+    static GoldenGlow mod;
+    public static GymHandler instance;
 
+    private static final Map<String, NBTTagCompound> gymLeaderData = new HashMap<String, NBTTagCompound>();
     public Map<EntityPlayer, double[]> locations = new HashMap<EntityPlayer, double[]>();
     public final List<Gym> gyms = new ArrayList<Gym>();
 
-    static GoldenGlow mod;
-    public GymHandler(GoldenGlow goldenGlow)
+    public GymHandler()
     {
-        mod = goldenGlow;
+        this.mod=GoldenGlow.instance;
+        this.instance=this;
     }
 
     public Gym getGym(String name)

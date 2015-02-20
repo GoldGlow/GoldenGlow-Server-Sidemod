@@ -66,13 +66,13 @@ public class GymLeader implements IExtendedEntityProperties {
         NBTTagCompound savedData = new NBTTagCompound();
 
         data.saveNBTData(savedData);
-        GoldenGlow.gymHandler.storeGymLeaderData(getSaveKey(player), savedData);
+        GymHandler.instance.storeGymLeaderData(getSaveKey(player), savedData);
     }
 
     public static void loadGymHandlerData(EntityPlayer player)
     {
         GymLeader data = GymLeader.get(player);
-        NBTTagCompound savedData = GoldenGlow.gymHandler.getGymLeaderData(getSaveKey(player));
+        NBTTagCompound savedData = GymHandler.instance.getGymLeaderData(getSaveKey(player));
         if(savedData!=null)
             data.loadNBTData(savedData);
     }

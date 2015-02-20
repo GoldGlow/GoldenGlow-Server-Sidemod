@@ -1,7 +1,7 @@
 package com.goldenglow;
 
+import com.goldenglow.battles.CustomBattleHandler;
 import com.goldenglow.commands.*;
-import com.goldenglow.util.PixelmonEventHandler;
 import com.goldenglow.util.Reference;
 import com.goldenglow.util.TickHandler;
 import com.goldenglow.config.GymConfiguration;
@@ -13,8 +13,6 @@ import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.event.FMLServerStartingEvent;
-import net.minecraftforge.common.MinecraftForge;
-import noppes.npcs.entity.EntityCustomNpc;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -30,9 +28,6 @@ public class GoldenGlow
     @Mod.Instance("goldglow")
     public static GoldenGlow instance;
     public static GymConfiguration config;
-    public static GymHandler gymHandler;
-    public static TeamHandler teamHandler;
-    public static PixelmonEventHandler pixelmonEventHandler;
     public static final Logger logger = LogManager.getLogger("GoldenGlow");
 
     @Mod.EventHandler
@@ -42,17 +37,17 @@ public class GoldenGlow
         if(!new File(Reference.configDir).exists())
             new File(Reference.configDir).mkdir();
         config = new GymConfiguration();
-        gymHandler = new GymHandler(this);
-        gymHandler.loadGyms();
-        teamHandler = new TeamHandler(this);
+        new GymHandler();
+        new TeamHandler();
+        new CustomBattleHandler();
+        GymHandler.instance.loadGyms();
     }
 
     @Mod.EventHandler
     public void load(FMLInitializationEvent event)
     {
         FMLCommonHandler.instance().bus().register(new TickHandler());
-        pixelmonEventHandler = new PixelmonEventHandler();
-        Pixelmon.instance.EVENT_BUS.register(pixelmonEventHandler);
+        Pixelmon.instance.EVENT_BUS.register(CustomBattleHandler.instance);
     }
 
     @Mod.EventHandler
@@ -60,9 +55,8 @@ public class GoldenGlow
     {
         event.registerServerCommand(new GymAdminCommands());
         event.registerServerCommand(new GymCommands());
-        event.registerServerCommand(new CreateBattleCommand());
-        event.registerServerCommand(new OpenDialogCommand());
+        event.registerServerCommand(new ResetCamCommand());
         event.registerServerCommand(new TeamCommand());
-        teamHandler.init();
+        TeamHandler.instance.init();
     }
 }

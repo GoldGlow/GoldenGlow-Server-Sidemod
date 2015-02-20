@@ -34,7 +34,7 @@ public class TeamCommand extends CommandBase
         if(args.length<2){
             if(args[0].equalsIgnoreCase("reload"))
                 return true;
-            else if(GoldenGlow.instance.teamHandler.getTeam(args[0])!=null)
+            else if(TeamHandler.instance.getTeam(args[0])!=null)
                 return true;
             else{
                 iCommandSender.addChatMessage(new ChatComponentText(Reference.messagePrefix + Reference.colorRed + "Team not found."));

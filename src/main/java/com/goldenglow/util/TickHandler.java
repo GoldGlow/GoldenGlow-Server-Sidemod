@@ -1,5 +1,6 @@
 package com.goldenglow.util;
 
+import com.goldenglow.gym.GymHandler;
 import com.pixelmonmod.pixelmon.storage.PixelmonStorage;
 import com.pixelmonmod.pixelmon.storage.PlayerNotLoadedException;
 import com.pixelmonmod.pixelmon.storage.PlayerStorage;
@@ -24,7 +25,7 @@ public class TickHandler
     {
         if(event.phase==TickEvent.Phase.START)
         {
-            for(Gym gym : GoldenGlow.gymHandler.gyms)
+            for(Gym gym : GymHandler.instance.gyms)
             {
                 if(gym.isCounting)
                 {

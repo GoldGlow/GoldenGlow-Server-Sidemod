@@ -25,13 +25,16 @@ import java.util.ArrayList;
 
 public class TeamHandler
 {
-    GoldenGlow mod;
+    static GoldenGlow mod;
+    public static TeamHandler instance;
+
     File teamFile = new File(Reference.configDir, "teams.cfg");
     ArrayList<Team> teams = new ArrayList<Team>();
 
-    public TeamHandler(GoldenGlow goldenGlow)
+    public TeamHandler()
     {
-        this.mod = goldenGlow;
+        this.mod = GoldenGlow.instance;
+        this.instance = this;
     }
 
     public void init()

@@ -2,6 +2,7 @@ package com.goldenglow.commands;
 
 import com.goldenglow.GoldenGlow;
 import com.goldenglow.gym.Gym;
+import com.goldenglow.gym.GymHandler;
 import com.goldenglow.gym.GymLeader;
 import com.goldenglow.util.Reference;
 import net.minecraft.command.CommandBase;
@@ -39,9 +40,9 @@ public class GymCommands extends CommandBase
         {
             if(args[0].equalsIgnoreCase("accept"))
             {
-                if(GoldenGlow.gymHandler.isInQueue(player))
+                if(GymHandler.instance.isInQueue(player))
                 {
-                    Gym gym = GoldenGlow.gymHandler.getGym(player);
+                    Gym gym = GymHandler.instance.getGym(player);
                     if(gym.isCounting && gym.getCurrentPlayer().isEntityEqual(player))
                     {
                         gym.isCounting=false;
@@ -58,7 +59,7 @@ public class GymCommands extends CommandBase
 
             if (args[0].equalsIgnoreCase("removePlayer")) {
                 if (args.length > 1) {
-                    GoldenGlow.gymHandler.removePlayer(player, iCommandSender);
+                    GymHandler.instance.removePlayer(player, iCommandSender);
                 }
             }
 

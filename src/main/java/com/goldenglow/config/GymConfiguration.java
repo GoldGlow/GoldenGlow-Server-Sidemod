@@ -1,6 +1,7 @@
 package com.goldenglow.config;
 
 import com.goldenglow.GoldenGlow;
+import com.goldenglow.gym.GymHandler;
 import com.goldenglow.util.Reference;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ChatComponentText;
@@ -43,7 +44,7 @@ public class GymConfiguration
         gymList.add(gymInfo);
         gyms.set((String[]) gymList.toArray(new String[this.gyms.size()]));
 
-        GoldenGlow.gymHandler.createGym(name, posX,posY,posZ, levelCap);
+        GymHandler.instance.createGym(name, posX,posY,posZ, levelCap);
 
         this.config.save();
 
@@ -88,7 +89,7 @@ public class GymConfiguration
         gyms.set((String[])gymList.toArray(new String[gymList.size()]));
         this.config.save();
 
-        GoldenGlow.gymHandler.removeGym(name, player);
+        GymHandler.instance.removeGym(name, player);
     }
 
     public void reload()
