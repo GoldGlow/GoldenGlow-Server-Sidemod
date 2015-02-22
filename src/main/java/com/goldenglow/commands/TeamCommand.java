@@ -1,11 +1,19 @@
 package com.goldenglow.commands;
 
 import com.goldenglow.GoldenGlow;
+import com.goldenglow.NPCFunctions;
+import com.goldenglow.team.Team;
 import com.goldenglow.team.TeamHandler;
 import com.goldenglow.util.Reference;
+import com.pixelmonmod.pixelmon.Pixelmon;
+import com.pixelmonmod.pixelmon.comm.packetHandlers.battles.BattleGuiClosed;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.ChunkCoordinates;
+import noppes.npcs.entity.EntityNPCInterface;
+
+import java.io.IOException;
 
 public class TeamCommand extends CommandBase
 {
@@ -16,13 +24,32 @@ public class TeamCommand extends CommandBase
 
     @Override
     public String getCommandUsage(ICommandSender iCommandSender) {
-        return "/team <Reload>:<Team Name> <Members:Moveset> [member]";
+        return "/team reload:list";
+        //return "/team 'Reload':'List':<Team Name> <Members:Moveset> [member]";
     }
 
     @Override
     public void processCommand(ICommandSender iCommandSender, String[] args)
     {
-        iCommandSender.addChatMessage(new ChatComponentText(Reference.messagePrefix + "THIS COMMAND IS A WORK IN PROGRESS!"));
+        if(isValid(iCommandSender, args))
+        {
+            if(args[0].equalsIgnoreCase("reload")){
+                try {
+                    TeamHandler.instance.loadTeams();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    iCommandSender.addChatMessage(new ChatComponentText(Reference.messagePrefix + Reference.colorRed + "ERROR LOADING TEAM FILE!"));
+                }
+            }
+            if(args[0].equalsIgnoreCase("list"))
+            {
+                iCommandSender.addChatMessage(new ChatComponentText(Reference.messagePrefix + Reference.colorBlue + Reference.bold + "Loaded Teams:"));
+                for(Team team : TeamHandler.instance.getTeams())
+                {
+                    iCommandSender.addChatMessage(new ChatComponentText(Reference.messagePrefix + team.getName()));
+                }
+            }
+        }
     }
 
     boolean isValid(ICommandSender iCommandSender, String[] args)

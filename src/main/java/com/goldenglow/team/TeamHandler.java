@@ -70,7 +70,7 @@ public class TeamHandler
                 teamName = line.replace("===","");
                 teamName = teamName.replace(" ","");
                 createTeam(teamName);
-                mod.logger.info("Created new Team: "+teamName+"!");
+                mod.logger.teamInfo("Created new Team: " + teamName + "!");
             }
             if(line.contains("@"))
             {
@@ -101,15 +101,17 @@ public class TeamHandler
             if(line.startsWith("Level:"))
             {
                 int lvl = Integer.parseInt(line.replace("Level: ",""));
-                if(pixelmon!=null&&lvl<=100&&lvl>0)
+                if(pixelmon!=null&&lvl<=100&&lvl>0){
                     pixelmon.getLvl().setLevel(lvl);
+                    mod.logger.info("Set level: "+lvl+" to pokemon: "+pixelmon.getName());
+                }
                 else
                     mod.logger.error("Could not set a pokemons level!");
             }
             if(line.startsWith("Shiny: ")&&line.contains("Yes"))
             {
                 pixelmon.setIsShiny(true);
-                mod.logger.info("Made pokemon: "+pixelmon.getName()+" a shiny!");
+                mod.logger.teamInfo("Made pokemon: "+pixelmon.getName()+" a shiny!");
             }
             if(line.startsWith("EVs:"))
             {
@@ -130,7 +132,7 @@ public class TeamHandler
                         evStore.SpecialDefence=ev;
                     if(evs.split(" ")[1].equalsIgnoreCase("spe")&&ev<=255&&ev>0)
                         evStore.Speed=ev;
-                    mod.logger.info("Added EV: '"+evs.split(" ")[1]+"-"+ev+"' to pokemon: "+pixelmon.getName());
+                    mod.logger.teamInfo("Added EV: '"+evs.split(" ")[1]+"-"+ev+"' to pokemon: "+pixelmon.getName());
                 }
                 pixelmon.stats.EVs = evStore;
             }
@@ -153,7 +155,7 @@ public class TeamHandler
                         ivStore.SpDef=iv;
                     if(ivs.split(" ")[1].equalsIgnoreCase("spe")&&iv<=31&&iv>0)
                         ivStore.Speed=iv;
-                    mod.logger.info("Added IV: '"+ivs.split(" ")[1]+"-"+iv+"' to pokemon: "+pixelmon.getName());
+                    mod.logger.teamInfo("Added IV: '"+ivs.split(" ")[1]+"-"+iv+"' to pokemon: "+pixelmon.getName());
                 }
                 pixelmon.stats.IVs = ivStore;
             }
@@ -163,7 +165,7 @@ public class TeamHandler
                 if(EnumNature.hasNature(line))
                 {
                     pixelmon.setNature(EnumNature.natureFromString(line));
-                    mod.logger.info("Added Nature: '"+line+"' to pokemon: "+pixelmon.getName());
+                    mod.logger.teamInfo("Added Nature: '"+line+"' to pokemon: "+pixelmon.getName());
                 }
             }
             if(line.startsWith("Moves:"))
@@ -177,7 +179,7 @@ public class TeamHandler
                     if(attack!=null) {
                         if (moveset.size() < 4) {
                             moveset.add(attack);
-                            mod.logger.info("Added move: "+move+" to pokemon: "+pixelmon.getName());
+                            mod.logger.teamInfo("Added move: "+move+" to pokemon: "+pixelmon.getName());
                         }else{
                             mod.logger.error("Pokemon: "+pixelmon.getName()+" already has a full moveset!");
                             mod.logger.error("Skipping move: "+move);
@@ -188,7 +190,7 @@ public class TeamHandler
                 }
                 pixelmon.setMoveset(moveset);
                 getTeam(teamName).addMember(pixelmon);
-                mod.logger.info("Finished adding pokemon: "+pixelmon.getName()+" to team: "+teamName);
+                mod.logger.teamInfo("Finished adding pokemon: "+pixelmon.getName()+" to team: "+teamName);
             }
         }
     }
@@ -208,5 +210,10 @@ public class TeamHandler
             }
         }
         return null;
+    }
+
+    public ArrayList<Team> getTeams()
+    {
+        return this.teams;
     }
 }

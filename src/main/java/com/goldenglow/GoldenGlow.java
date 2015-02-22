@@ -2,6 +2,7 @@ package com.goldenglow;
 
 import com.goldenglow.battles.CustomBattleHandler;
 import com.goldenglow.commands.*;
+import com.goldenglow.util.GGLogger;
 import com.goldenglow.util.Reference;
 import com.goldenglow.util.TickHandler;
 import com.goldenglow.config.GymConfiguration;
@@ -28,7 +29,7 @@ public class GoldenGlow
     @Mod.Instance("goldglow")
     public static GoldenGlow instance;
     public static GymConfiguration config;
-    public static final Logger logger = LogManager.getLogger("GoldenGlow");
+    public static GGLogger logger;
 
     @Mod.EventHandler
     public void preInit(FMLPreInitializationEvent event)

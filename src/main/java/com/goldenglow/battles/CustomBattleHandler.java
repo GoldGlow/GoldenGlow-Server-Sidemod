@@ -40,7 +40,12 @@ public class CustomBattleHandler
     }
 
     public void createCustomBattle(EntityPlayerMP player, String teamName, int winDialogID, int loseDialogID, EntityNPCInterface npc) {
-        Team npcTeam = TeamHandler.instance.getTeam(teamName);
+        Team npcTeam;
+        if(teamName!=null) {
+            npcTeam = TeamHandler.instance.getTeam(teamName);
+        }else{
+            npcTeam = new Team("");
+        }
 
         if (BattleRegistry.getBattle(player) != null){
             player.addChatComponentMessage(new ChatComponentText(Reference.messagePrefix + Reference.colorRed + "Cannot Battle!"));
